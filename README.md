@@ -131,6 +131,7 @@ Here is a rundown of all the variables that you can set.
 | **`PRE_SYNC_SCRIPT`** | Path to script to run before `sync`. <br>*Example*: `/home/scripts/pre_sync.sh` | *optional* |  |
 | **`PRE_BUILD_SCRIPT`** | Path to script to run before `build`. <br>*Example*: `/home/scripts/pre_build.sh` | *optional* |  |
 | **`POST_BUILD_SCRIPT`** | Path to script to run after `build`. <br>*Example*: `/home/scripts/post_build.sh` | *optional* |  |
+| **`BUILD_FLAVOR`** | The flavor of build that you want to produce. <br>*Example*: `userdebug` | *optional* |  |
 
 You can pass any other env variable that you need, or just do some scripting. It's that flexible!
 

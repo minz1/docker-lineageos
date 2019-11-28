@@ -164,7 +164,12 @@ function init {
     chmod u+x build/envsetup.sh
     shopt -s expand_aliases
     source $BASE_DIR/build/envsetup.sh
-    breakfast $DEVICE_CODENAME
+
+    if [[ ! -z $BUILD_FLAVOR ]]; then
+        breakfast lineage_$DEVICE_CODENAME-$BUILD_FLAVOR
+    else
+        breakfast $DEVICE_CODENAME
+    fi
 
     echo "[INFO] Export environment setup into '$LINEAGEOS_DEV_INIT'."
     # Create own script so we user is free to modify its .bashrc
@@ -216,10 +221,20 @@ function build {
         prebuilts/misc/linux-x86/ccache/ccache -M $CCACHE_SIZE
     fi
     # starts configuration
-    breakfast $DEVICE_CODENAME
+
+    if [[ ! -z $BUILD_FLAVOR ]]; then
+        breakfast lineage_$DEVICE_CODENAME-$BUILD_FLAVOR
+    else
+        breakfast $DEVICE_CODENAME
+    fi
+
     # starts building
     croot
-    brunch $DEVICE_CODENAME
+    if [[ ! -z $BUILD_FLAVOR ]]; then
+        brunch lineage_$DEVICE_CODENAME-$BUILD_FLAVOR
+    else
+        brunch $DEVICE_CODENAME
+    fi
 
     if [[ ! -z $POST_BUILD_SCRIPT ]]; then
         echo "[INFO] Run post-build script"
