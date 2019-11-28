@@ -196,6 +196,13 @@ function sync {
         source "$PRE_SYNC_SCRIPT"
     fi
 
+    if [[ ! -z $LINEAGEOS_LOCAL_MANIFEST_REPO ]]; then
+        if [[ ! -d .repo/local_manifests ]]; then
+            echo "[INFO] Updating Lineage with local manifest repositories."
+            git clone $LINEAGEOS_LOCAL_MANIFEST_REPO .repo/local_manifests -b $LINEAGEOS_LOCAL_MANIFEST_BRANCH
+        fi
+    fi
+
     echo "[INFO] Sync repository"
     repo sync --force-sync -c -j $(nproc --all)
 
