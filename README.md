@@ -94,7 +94,9 @@ _**Feel free to open a PR to submit another device configuration.**_
 
 ## `lineageos` script
 Inside the container there is script, called [`lineageos`](lineageos), that's used to automate most of the commands needed to init, sync and build LineageOS.  Let's go go over each option:
-- `-c|--clean`: Removes all the repo files (cache included)
+- `-fc|--force-clean`: Removes all the repo files (cache included)
+- `-c|--clean`: Runs `make clean` in the repo.
+- `-ic|--install-clean`: Runs `make installclean` in the repo.
 - `i|init`: Initializes the repository making it ready to build LineageOS. In this step we init the repo and sync it. We also download the device's proprietary blobs, the user's extra files, and enable caching.
 - `b|build`: Builds LineageOS!
 - `s|sync`: Forces sync of the LineageOS repo sync and (if set) of the device's proprietary blobs repo

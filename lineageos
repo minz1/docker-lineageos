@@ -15,15 +15,19 @@ INIT=0
 SYNC=0
 BUILD=0
 FORCE_CLEAN=0
+CLEAN=0
+INSTALL_CLEAN=0
 
 USAGE="$(basename "$0") <arg> -- Helper for lineage compilation tool
 
 where <arg> can be :
-    -c|--clean  -- Cleans the LineageOS repository folder
-    i|init      -- Init lineage repo
-    b|build     -- Compiles LineageOS
-    s|sync      -- Syncs LineageOS repo
-    all         -- shortcut for performing 'lineageos init build'
+    -fc|--force-clean   -- Cleans the LineageOS repository folder
+    -c|--clean          -- Runs 'make clean'
+    -ic|--install-clean -- Runs 'make installclean'
+    i|init              -- Init lineage repo
+    b|build             -- Compiles LineageOS
+    s|sync              -- Syncs LineageOS repo
+    all                 -- shortcut for performing 'lineageos init build'
 "
 
 # Argparse
@@ -44,8 +48,14 @@ while [[ $# > 0 ]]; do
         s|sync)
             SYNC=1
             ;;
-        -c|--clean)
+        -fc|--force-clean)
             FORCE_CLEAN=1
+            ;;
+        -c|--clean)
+            CLEAN=1
+            ;;
+        -ic|--install-clean)
+            INSTALL_CLEAN=1
             ;;
         -h|--help)
             echo "$USAGE"
@@ -76,6 +86,18 @@ function force_clean {
     mkdir -p $CCACHE_DIR
     # removing init file
     rm -f $LINEAGEOS_DEV_INIT
+}
+
+function clean {
+    source $BASE_DIR/build/envsetup.sh
+
+    if [[ $INSTALL_CLEAN == 1 ]]; then
+        echo "[INFO] Run 'make installclean'"
+        mka installclean
+    else
+        echo "[INFO] Run 'make clean'"
+        mka clean
+    fi
 }
 
 function reload_bashrc {
@@ -109,7 +131,7 @@ function config_git {
 function init {
     # EVERYTHING BELOW NEEDS INIT FIRST
     if [ -s $LINEAGEOS_DEV_INIT ]; then
-        echo "[INFO] Repository already initialized. Use [-c|--clean] for a clean init."
+        echo "[INFO] Repository already initialized. Use [-fc|--force-clean] for a clean init."
     fi
     config_git;
 
@@ -261,6 +283,12 @@ fi
 
 if [[ $INIT == 1 ]]; then
     init;
+fi
+
+if [[ $CLEAN == 1 ]]; then
+    clean;
+elif [[ $INSTALL_CLEAN == 1 ]]; then
+    clean;
 fi
 
 # if sync repo passes forces a lineage repo sync
