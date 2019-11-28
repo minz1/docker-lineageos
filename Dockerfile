@@ -1,5 +1,5 @@
 FROM openjdk:8
-LABEL maintainer="jfloff@inesc-id.pt"
+LABEL maintainer="emerytang@gmail.com"
 
 ###################
 # This Dockerfile was based on the following Dockerfiles
